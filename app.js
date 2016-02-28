@@ -17,6 +17,17 @@ app.engine('handlebars', handlebars.engine);
 app.set('view engine', 'handlebars');
 app.set('port', 3000);
 
+app.get('/',function(req,res){
+  var gParams = [];
+  for (var p in req.query){
+    gParams.push({'name':p,'value':req.query[p]})
+  }
+  var context = {};
+  context.getList = gParams;
+  res.render('checker',context);
+});
+
+
 app.post('/',function(req,res){
   var gParams = [];
   for (var p in req.query){
@@ -37,6 +48,7 @@ app.use(function(req,res){
   res.status(404);
   res.render('404');
 });
+
 
 app.use(function(err, req, res, next){
   console.error(err.stack);
